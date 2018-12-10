@@ -1,32 +1,115 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-        <title>Hello Javascript</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-      
-
-        </head>
+    <title>Hello Javascript</title>
 
 
-        <body>
-            <!--
-                Titre aliménté en Javascript 
-                ATTENTION ! Ne jamais faire ça pour un site web (le site web ici ne sera pas référencé)
-            -->
+    <!--  Feuilles de stype -->
+
+    <link href=" ./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+    <!-- Conteneur de page : responsive en plus !!! -->
+    <div class="container">
+        <header>
 
             <h1 id="main-title"></h1>
 
+        </header>
 
-              <!-- Premier script Javascript  fichier externalisé dans le fichier javascript placé dans assets-->
-        <script src="./assets/javascript/main.js">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #175785;">
+            <!-- Brand : nom du menu -->
+            <a class="navbar-brand" href="#">Stories</a>
+            <!-- Bonton "burger" qui apparait seulement si on réduit la fenêtre d'affichage-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-               
-            </script>
 
-        </body>
+            <!-- Contenu des éléments du menu -->
+
+            <div class="collapse navbar-collapse" id="stories-menu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" title="Accueil" href="#">Accueil <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" title="Toutes les stories" href="#">Toutes les stories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" title="Mes stories" href="#">Mes stories</a>
+                    </li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Utilisateur
+                        </a>
+
+                        <!-- Options du menu utilisateur -->
+
+                        <div class="dropdown-menu" aria-labelledby="stories-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Rechercher" aria-label="Rechercher">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+                </form>
+            </div>
+        </nav>
+
+
+
+
+
+        <!-- Docking de la SPA (Single Page Application: façon moderne d'écrire des applications web) -->
+
+        <div app>
+            <!-- Ici, le contenu de l'application finale identifié par l'attribut "app" -->
+            <form id="loginForm" class="form-stacked">
+                <input type="text" name="loginField" autocomplete="off" class="form-control" placeholder="Votre identifiant">
+                <!-- autocomplete off : pas de recherche des dernières entrées saisies (pas de propositions=-->
+                <!-- placeholder: champ grisé qui apparait dans le formulaire et disparait lorsque l'on entre un champ-->
+                <input type="password" name="passwordField" autocomplete="off" class="form-control" placeholder="Votre mot de passe">
+                <!-- Bouton de type submit : bouton qui soumet le formulaire entré et prend tout le contenu du serveur qu'il envoie dans le réseau-->
+                <button type="submit" id="btnLogin" class="btn btn-success" disabled>Connexion</button>
+
+            </form>
+
+        </div>
+
+        <footer>
+
+            &copy; Aélion 2018
+
+        </footer>
+
+    </div>
+
+
+
+    <!-- Script Javascript : fichier externalisé dans le fichier javascript placé dans assets-->
+    <script src=" ./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src=" ./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src=" ./src/user/login.class.js"></script>
+    <script src="./assets/javascript/main.js"> </script>
+
+</body>
 
 </html>
-
