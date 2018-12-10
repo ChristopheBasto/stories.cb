@@ -46,15 +46,21 @@ class Login {
 
                 //Est-ce que les deux champs sont remplis?
 
-                if (login.val() !== '' && password.val() !== '') {
-                    //On peut activer le bouton
-                    $('#btnLogin').removeAttr('disabled');
-                } else {
-                    // Pas automatique
-                    $('#btnLogin').attr('disabled', 'disabled');
-                }
 
-            }
+                    if (
+                        login.val() !== '' && 
+                        password.val() !== '' &&
+                        login.val().length >=5 &&
+                        password.val().length >=5
+                        ) {
+                        //On peut activer le bouton
+                        $('#btnLogin').removeAttr('disabled');
+                    } else {
+                        // Pas automatique
+                        $('#btnLogin').attr('disabled', 'disabled');
+                    }
+                }
+            
         );
 
     }
