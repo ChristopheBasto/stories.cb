@@ -7,6 +7,9 @@
 
 class Toast {
     constructor(params) {
+        //Objet créé dans login.class avec const toast = new Toast
+        // méthode propre aux objets : hasOwnProperty = regarde dans params s'il y a un attribut background
+        //S'il ne contient pas l'attribut backgroung (négation avec le !), transmet moi 'danger' sinon transmet ce qu'il y a dans l'objet
         if (!params.hasOwnProperty('background')) {
             //Paramètres de définition de la couleur de fond du toast
             this.backgroundClass = 'danger';
@@ -39,16 +42,21 @@ class Toast {
         setDuration(duration) {
             this.duration = duration;
         }
+        
+
+
+
+
         toastIt() {
 
             //Création en mémoire (avec $) d'un nouvel élément dans le DOM
-            const toaster = $('<div>')
+            const toaster = $('<div>');
 
             //On lui ajoute les classes 
             toaster
                 .addClass('toast')
                 .addClass(this.backgroundClass)
-                .hmtl(this.message);
+                .html(this.message);
 
             //Ajoute le toaster au document lui-même
 

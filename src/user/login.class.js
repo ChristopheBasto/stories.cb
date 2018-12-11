@@ -108,9 +108,12 @@ class Login {
 
                     //On peut instancer un toast
                     const toast = new Toast(
+ 
+                        // Entre accolade : objet json avec attribut message et attribut duration avec leurs valeurs associées
+                        //Attributs entre ' ' car c'est une déclaration, ils ne renvoient à aucun paramètre antérieurs, ils sont "nouveaux"
                         {
                             'message': 'Ce login ou ce mot de passe ne corrrespond à aucun utilisateur',
-                            'duration': 2
+                            'duration': 10
                         }
                     );
                     toast.toastIt();

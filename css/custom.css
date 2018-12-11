@@ -10,13 +10,14 @@ Classe toast : définiton d'un toast
     height: 100 px;
     top: 20 px;
     left: 50%;
+    border-radius: 5px;
 
 }
 
-.toast .danger {
+.toast.danger {
     background-color: rgba(206, 7, 7, 0.8);
     color : rgb(8, 4, 4);
     border : solid 1px #fff;
     
-
 }
+
