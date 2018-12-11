@@ -105,6 +105,15 @@ class Login {
                     login.val('');
                     password.val('');
                     $('#btnLogin').attr('disabled', 'disabled');
+
+                    //On peut instancer un toast
+                    const toast = new Toast(
+                        {
+                            'message': 'Ce login ou ce mot de passe ne corrrespond à aucun utilisateur',
+                            'duration': 2
+                        }
+                    );
+                    toast.toastIt();
                 }
 
             }
