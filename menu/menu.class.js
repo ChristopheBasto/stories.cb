@@ -4,27 +4,34 @@
  * @author Aélion
  * @version 1.0.0
  */
+
+
 export class Menu {
     constructor() {
 
         // Tableau d'objets json dont un objet est lui même un tableau d'objets json
         this.options = [
-            {title: 'Accueil', active: 'always'},
-            {title: 'Toutes les Stories', active: 'isAdmin'},
-            {title: 'Mes stories', active: 'always'},
-            {title: 'Mon compte', active: 'always', options : [
-                {title: 'Mes préférences'},
-                {title: 'Changer de mot de passe'},
-                {divider: true},
-                {title: 'Déconnexion'}
-            ]}
+            { title: 'Accueil', active: 'always' },
+            { title: 'Toutes les Stories', active: 'isAdmin' },
+            { title: 'Mes stories', active: 'always' },
+            {
+                title: 'Mon compte', active: 'always', options: [
+                    { title: 'Mes préférences' },
+                    { title: 'Changer de mot de passe' },
+                    { divider: true },
+                    { title: 'Déconnexion' }
+                ]
+            }
         ];
     }
 
     /**
      * Définit l'utilisateur connecté
      * @param {*} user 
-     */
+     **/
+
+
+
     setUser(user) {
         this.user = user;
         // Met à jour le menu Utilisateur
@@ -35,6 +42,7 @@ export class Menu {
     }
 
     _update() {
+        console.log('coucou');
         // Mise à jour de l'option du menu : (userName)
         const userMenu = $('#userMenu');
         userMenu.html(this.user.userName);
@@ -81,7 +89,7 @@ export class Menu {
     _activate() {
         for (let option of this.options) {
             const item = $('[title="' + option.title + '"]');
-            
+
             if (option.active === 'always') {
                 item.removeClass('disabled');
             } else if (option.active === 'isAdmin' && this.user.group === 'Administrateur') {

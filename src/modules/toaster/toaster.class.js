@@ -5,8 +5,8 @@
  * @version 1.0.0
  */
 
-
- export class Toast {
+/** 
+export class Toast {
     constructor(params) {
         //Objet créé dans login.class avec const toast = new Toast
         // méthode propre aux objets : hasOwnProperty = regarde dans params s'il y a un attribut background
@@ -57,6 +57,8 @@
         toaster
             .addClass('toast')
             .addClass(this.backgroundClass)
+            .addClass('animated')
+            .addClass('fadeInDownBig')
             .html(this.message);
 
         //Ajoute le toaster au document lui-même
@@ -66,18 +68,31 @@
         //Affichage pendant un certain temps
         setTimeout(
             function () {
-                //Ici, quand on arrive au bout de l'intervalle de temps
+                setTimeout(
+                    function () {
+
+                        toaster
+
+                            .addClass('fadeOutRightBig');
+
+
+                    },
+                    (this.duration / 2) * 1000
+                );
                 toaster.remove();
             },
+            //Ici, quand on arrive au bout de l'intervalle de temps
             this.duration * 1000
         );
-
     }
-} 
+}
+
+**/
 
 
 
-/** 
+
+
 export class Toast {
     constructor(params) {
         if (!params.hasOwnProperty('background')) {
@@ -89,7 +104,7 @@ export class Toast {
 
         if (!params.hasOwnProperty('duration')) {
             // Durée d'affichage du toast (en secondes)
-            this.duration = 3;
+            this.duration = 7;
         } else {
             this.duration = params.duration;
         }
@@ -147,4 +162,3 @@ export class Toast {
     }
 }
 
-**/

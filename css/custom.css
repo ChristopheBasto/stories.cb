@@ -14,10 +14,28 @@ Classe toast : définiton d'un toast
 
 }
 
+.toast.warning {
+    color: rgb(235, 17, 17);
+    border: solid 5px rgb(250, 229, 38);
+}
+
 .toast.danger {
     background-color: rgba(206, 7, 7, 0.8);
     color : rgb(8, 4, 4);
     border : solid 5px rgb(241, 245, 7);
     
+}
+
+
+.toast.danger p {
+    background-color: rgba(231, 19, 19, 0.8);
+}
+
+.toast.warning p {
+    background-color: rgba(231, 192, 19, 0.911);
+}
+
+#userMenuOptions.hidden {
+    display: none;
 }
 
