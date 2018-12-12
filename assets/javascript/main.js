@@ -3,12 +3,16 @@
  * @desc Point d'entrée principal dans l'application Javascript
  */
 
-import { Login } from './../../src/user/login.class';
+import { Router } from '../../src/modules/router/router.class';
 
-let title = document.getElementById('main-title');
-title.innerHTML = 'Hello Javascript';
+import { Route } from '../../src/modules/router/route.class';
 
+const router = new Router();
+router
+    .add(
+        new Route('/', 'LoginController')
+    )
+    .add(
+        new Route('/mystories', 'MyStories')
+    );
 
-// Créer une instance de Login (ici login est un objet construit à partir de la classe Login)
-
- const login = new Login();
