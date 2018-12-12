@@ -98,12 +98,19 @@
 
 var _login = __webpack_require__(/*! ./../../src/user/login.class */ "./src/user/login.class.js");
 
-var title = document.getElementById('main-title'); /**
-                                                    * @name main.js
-                                                    * @desc Point d'entrée principal dans l'application Javascript
-                                                    */
+var _loginController = __webpack_require__(/*! ../../src/user/login/views/loginController.class */ "./src/user/login/views/loginController.class.js");
 
+/**
+ * @name main.js
+ * @desc Point d'entrée principal dans l'application Javascript
+ */
+
+var title = document.getElementById('main-title');
 title.innerHTML = 'Hello Javascript';
+
+// @versio 1.0.1 Passage par contrôleur
+var controller = new _loginController.LoginController();
+controller.getView();
 
 // Créer une instance de Login (ici login est un objet construit à partir de la classe Login)
 
@@ -482,10 +489,6 @@ var Login = exports.Login = function () {
         // Modifier le titre de la page
         $('#main-title').html('Identifiez-vous');
 
-        // Définition des attributs
-        this.login = $('[name="loginField"]');
-        this.password = $('[name="passwordField"]');
-
         // Définition du listener sur le formulaire
         this.formListener();
         this.submitListener();
@@ -503,9 +506,16 @@ var Login = exports.Login = function () {
             var login = this.login;
             var password = this.password;
 
-            $('#loginForm').on('keyup',
+            var app = $('[app]');
+
+            //$('#loginForm').on(
+            app.on('keyup', '#loginForm', //Délégation d'évènement...
             // Callback : fonction appelée si l'événement défini survient
             function (event) {
+
+                // Définition des attributs
+                var login = $('[name="loginField"]');
+                var password = $('[name="passwordField"]');
 
                 // Est-ce que les deux champs sont remplis
                 if (password.val() !== '' && login.val().length >= 5) {
@@ -520,10 +530,18 @@ var Login = exports.Login = function () {
     }, {
         key: 'submitListener',
         value: function submitListener() {
-            var login = this.login;
-            var password = this.password;
+            // let login = this.login;
+            // let password = this.password;
 
-            $('#loginForm').on('submit', function (event) {
+            var app = $('[app]');
+
+            //$('#loginForm').on(
+            app.on('submit', '#loginForm', function (event) {
+
+                // Définition des attributs
+                var login = $('[name="loginField"]');
+                var password = $('[name="passwordField"]');
+
                 event.preventDefault(); // Empêche l'action par défaut...
 
                 // Instancie un nouvel utilisateur
@@ -564,6 +582,68 @@ var Login = exports.Login = function () {
     }]);
 
     return Login;
+}();
+
+/***/ }),
+
+/***/ "./src/user/login/views/loginController.class.js":
+/*!*******************************************************!*\
+  !*** ./src/user/login/views/loginController.class.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * @name LoginController
+ * @desc Contrôleur pour la gestion du formulaire de Login
+ * @author Aélion
+ * @version 1.0.0
+ */
+
+var LoginController = exports.LoginController = function () {
+    function LoginController() {
+        _classCallCheck(this, LoginController);
+
+        //Définition de la vue (ce qui est affiché) pour ce contrôleur
+        this.view = './src/user/login/views/loginform.view.html';
+        console.log('Vue' + this.view);
+    }
+
+    /**
+     * Méthode pour récupérer la vue à afficher
+     */
+
+
+    _createClass(LoginController, [{
+        key: 'getView',
+        value: function getView() {
+            //Récupère le placeholder de mon application
+            var app = $('[app]');
+
+            //console.log('Tente de charger : ' + this.view);
+            //Méthode de jquery (get) qui permet d'aller cherche un fichier quelque part et de la retourner dans une fonction (on récupère avec get et si succès, on le récupère dans la fonction)
+            // Le contenu du fichier view sera récupéré dans le paramètre viewContent de la fonction
+            $.get(this.view, function (viewContent) {
+                app.empty(); //Vide le contenu le cas échéant
+                app.html(viewContent);
+
+                //console.log(viewContent);
+            });
+        }
+    }]);
+
+    return LoginController;
 }();
 
 /***/ }),
