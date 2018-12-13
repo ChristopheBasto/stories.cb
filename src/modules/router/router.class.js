@@ -14,6 +14,8 @@ import { Route } from './route.class'
 
 import { LoginController } from './../../user/login/views/loginController.class';
 import { MyStories } from '../../user/login/views/myStories.class';
+import { LogoutController } from './../../user/logout/logoutController.class';
+import { Error } from './../../errors/error.class';
 import { UserService } from './../../services/user-service.class';
 //import { User } from '../../user/user.class';
 //import { Login } from '../../user/login.class';
@@ -21,7 +23,9 @@ import { UserService } from './../../services/user-service.class';
 
 const controllers = {
     LoginController,
-    MyStories
+    LogoutController,
+    MyStories,
+    Error
 }
 export class Router {
     constructor() {
@@ -61,14 +65,13 @@ export class Router {
         let controller = {};
         
         if (!route) {
-            // Aucun contrôleur associé à cette route
+            controller = new Error();
         } else {
             if (url === '/') {
                 // On vérifie l'utilisateur
                 const userService = new UserService();
                 if (userService.hasUser()) {
                     // Il y a un utilisateur identifié... donc pas de login
-                    console.log('Route par défaut...');
                     controller = new MyStories();
                 } else {
                     // Pas encore d'utilisateur, on instancie LoginController
@@ -92,12 +95,11 @@ export class Router {
                     controller = new controllers[route.getController()]();
                 }
             }
-            // A la fin, on charge la vue
-            controller.getView();
         }
+        // A la fin, on charge la vue
+        controller.getView();
     }
 }
-
 
 
 

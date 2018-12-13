@@ -15,4 +15,11 @@ import { UserService } from '../../src/services/user-service.class';
  )
  .add(
      new Route('/mystories', 'MyStories', userService)
+     )
+     
+     .add(
+         new Route('/logout', 'LogoutController')
+     )
+     .add(
+         new Route('/errors', 'Error')
  );

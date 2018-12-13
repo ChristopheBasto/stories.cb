@@ -1,5 +1,7 @@
 
 
+import { Menu } from '../../../../menu/menu.class';
+import {UserService} from '../../../services/user-service.class'
 
 
 
@@ -7,6 +9,10 @@ export class MyStories {
 constructor() {
     //Définition de la vue (ce qui est affiché) pour ce contrôleur
     this.view = './src/user/login/views/stories.view.html';
+    
+    const userService = new UserService();
+    const menu = new Menu ();
+    menu.setUser(userService.getUser());
  
 }
 
