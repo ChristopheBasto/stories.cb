@@ -3,7 +3,7 @@
 
 
 
-export class myStories {
+export class MyStories {
 constructor() {
     //Définition de la vue (ce qui est affiché) pour ce contrôleur
     this.view = './src/user/login/views/stories.view.html';
