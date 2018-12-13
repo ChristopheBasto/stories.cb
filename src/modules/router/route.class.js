@@ -7,20 +7,22 @@
  */
 
 
+export class Route {
+    constructor(path, controller, canActivate = null) {
+        this.path = path;
+        this.controller = controller;
+        this.canActivate = canActivate;
+    }
 
- export class Route {
-     constructor(path, controller) {
-         this.path = path;
-         this.controller = controller;
+    getPath() {
+        return this.path;
+    }
 
-     }
-
-     getPath() {
-         return this.path;
-     }
-
-     getController() {
+    getController() {
         return this.controller;
-     }
-    
- }
+    }
+
+    getCanActivate() {
+        return this.canActivate;
+    }
+}

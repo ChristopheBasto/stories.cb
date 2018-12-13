@@ -357,11 +357,11 @@ var _myStories = __webpack_require__(/*! ../../user/login/views/myStories.class 
 
 var _userService = __webpack_require__(/*! ./../../services/user-service.class */ "./src/services/user-service.class.js");
 
+var _user = __webpack_require__(/*! ../../user/user.class */ "./src/user/user.class.js");
+
+var _login = __webpack_require__(/*! ../../user/login.class */ "./src/user/login.class.js");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// import { User } from '../../user/user.class';
-// import { Login } from '../../user/login.class';
-
 
 var controllers = {
     LoginController: _loginController.LoginController,
@@ -376,11 +376,10 @@ var Router = exports.Router = function () {
 
         var router = this;
 
-        // Définit le listener sur les routes
+        //Définit le listener sur les routes
         $(window).on('hashchange', function (event) {
             router.getRoute();
         });
-
         $(window).on('load', function (event) {
             router.getRoute();
         });
@@ -395,43 +394,45 @@ var Router = exports.Router = function () {
     }, {
         key: 'getRoute',
         value: function getRoute() {
+
+            // Le slice vire le dièse de l'adresse url s'il y en a un sinon il ajoute un /
             var url = location.hash.slice(1) || '/';
+
             console.log('URL à charger [' + url + ']');
 
             // On va essayer de chercher si dans les routes, on a quelque chose qui correspond
             var route = this.routes.get(url);
 
-            // Instance d'un contrôleur vide
             var controller = {};
 
             if (!route) {
-                // Aucun contrôleur associé à cette route
+                //Aucun contrôleur associé à cette route
             } else {
                 if (url === '/') {
-                    // On vérifie l'utilisateur
+                    //On vérifie l'utilisateur
                     var userService = new _userService.UserService();
                     if (userService.hasUser()) {
-                        // Il y a un utilisateur identifié... donc pas de login
+                        //Il y a un utilisateur identifié.. donc pas de login
                         controller = new _myStories.MyStories();
                     } else {
-                        // Pas encore d'utilisateur, on instancie LoginController
+                        //Pas encore d'utilisateur , on instancie LoginController
                         controller = new _loginController.LoginController();
                     }
                 } else {
-                    // La route définie est autre chose...
-                    console.log('Instancie : ' + route.getController());
+                    //La route définie est autre chose...
+                    console.log('Instancie :' + route.getController());
 
                     var canActivate = route.getCanActivate();
                     if (canActivate) {
-                        // L'instanciation requiert une vérification
+                        //L'instanciation requiert une vérification
                         if (canActivate.hasUser()) {
                             controller = new controllers[route.getController()]();
                         } else {
-                            // On ne peut pas, sans utilisateur identifié
+                            //On ne peut pas, sans utilisateur identifié
                             controller = new _loginController.LoginController();
                         }
                     } else {
-                        // Route activable sans contrôle
+                        //Route activable sans contrôle 
                         controller = new controllers[route.getController()]();
                     }
                 }
@@ -443,95 +444,6 @@ var Router = exports.Router = function () {
 
     return Router;
 }();
-
-/** 
-const controllers = {
-    LoginController,
-    MyStories
-}
-
-
-
-export class Router {
-    constructor() {
-        this.routes = new Map();
-
-        let router = this;
-
-        //Définit le listener sur les routes
-        $(window).on(
-            'hashchange',
-            function (event) {
-                router.getRoute()
-            }
-        );
-        $(window).on(
-            'load',
-            function (event) {
-                router.getRoute()
-            }
-        );
-    }
-
-
-
-    add(route) {
-        this.routes.set(route.path, route);
-        return this;
-    }
-
-    getRoute() {
-
-        // Le slice vire le dièse de l'adresse url s'il y en a un sinon il ajoute un /
-        const url = location.hash.slice(1) || '/';
-
-        console.log('URL à charger [' + url + ']');
-
-        // On va essayer de chercher si dans les routes, on a quelque chose qui correspond
-        const route = this.routes.get(url);
-
-        let controller = {};
-
-        if (!route) {
-            //Aucun contrôleur associé à cette route
-        } else {
-            if (url === '/') {
-                //On vérifie l'utilisateur
-                const userService = new UserService();
-                if (userService.hasUser()) {
-                    //Il y a un utilisateur identifié.. donc pas de login
-                    controller = new MyStories();
-                } else {
-                    //Pas encore d'utilisateur , on instancie LoginController
-                    controller = new LoginController();
-                }
-
-            } else {
-                //La route définie est autre chose...
-                console.log('Instancie :' + route.getController());
-
-                const canActivate = route.getCanActivate();
-                if (canActivate) {
-                    //L'instanciation requiert une vérification
-                    if (canActivate.hasUser()) {
-                        controller = new controllers[route.getController()]();
-                    } else {
-                        //On ne peut pas, sans utilisateur identifié
-                        controller = new LoginController();
-                    }
-                } else {
-                    //Route activable sans contrôle 
-                    controller = new controllers[route.getController()]();
-                }
-
-
-            }
-            // A la fin, on charge la vue
-            controller.getView();
-        }
-    }
-}
-*/
 
 /***/ }),
 

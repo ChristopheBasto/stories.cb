@@ -5,11 +5,15 @@
  * @version 1.0.0
  */
 
+
+ import { Login } from './../../login.class';
+
 export class LoginController {
     constructor() {
         //Définition de la vue (ce qui est affiché) pour ce contrôleur
         this.view = './src/user/login/views/loginform.view.html';
         console.log('Vue' + this.view);
+        this.login = new Login ();
     }
 
     /**
