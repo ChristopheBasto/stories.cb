@@ -12,7 +12,8 @@
 
     <link href=" ./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href=" ./node_modules/animate.css/animate.min.css" rel="stylesheet">
-    <link href=" ./css/custom.css" rel="stylesheet">
+    <link href=" ./css/fonts/custom.css" rel="stylesheet">
+    <link href=" ./css/style.css" rel="stylesheet">
 
 </head>
 
@@ -62,11 +63,11 @@
                         <!-- Options du menu utilisateur -->
 
                         <div class="dropdown-menu" id="userMenuOptions" aria-labelledby="stories-menu">
-                           <!--  <a class="dropdown-item" href="#">Action</a>
+                            <!--  <a class="dropdown-item" href="#">Action</a>
                             <a class="dropdown-item" href="#">Another action</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Something else here</a> -->
-                        </div> 
+                        </div>
 
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
@@ -78,23 +79,13 @@
 
 
 
+        <div app>
+
+        </div>
 
 
         <!-- Docking de la SPA (Single Page Application: façon moderne d'écrire des applications web) -->
 
-        <div app>
-            <!-- Ici, le contenu de l'application finale identifié par l'attribut "app" -->
-            <form id="loginForm" class="form-stacked">
-                <input type="text" name="loginField" autocomplete="off" class="form-control" placeholder="Votre identifiant">
-                <!-- autocomplete off : pas de recherche des dernières entrées saisies (pas de propositions=-->
-                <!-- placeholder: champ grisé qui apparait dans le formulaire et disparait lorsque l'on entre un champ-->
-                <input type="password" name="passwordField" autocomplete="off" class="form-control" placeholder="Votre mot de passe">
-                <!-- Bouton de type submit : bouton qui soumet le formulaire entré et prend tout le contenu du serveur qu'il envoie dans le réseau-->
-                <button type="submit" id="btnLogin" class="btn btn-success" disabled>Connexion</button>
-
-            </form>
-
-        </div>
 
         <footer>
 
@@ -109,14 +100,14 @@
     <!-- Script Javascript : fichier externalisé dans le fichier javascript placé dans assets-->
     <script src=" ./node_modules/jquery/dist/jquery.min.js"></script>
     <script src=" ./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-     <!--
+    <!--
     <script src=" ./src/modules/toaster/toaster.class.js"></script>
     <script src=" ./src/user/user.class.js"></script>
     <script src=" ./src/user/login.class.js"></script>
     <script src=" ./menu/menu.class.js"></script>
     <script src="./assets/javascript/main.js"> </script>
     -->
-    <script src="./build/main.bundle.js"> </script> 
+    <script src="./build/main.bundle.js"> </script>
 
 
 </body>

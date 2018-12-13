@@ -14,9 +14,7 @@ export class Login {
         // Modifier le titre de la page
         $('#main-title').html('Identifiez-vous');
 
-        // Définition des attributs
-        this.login = $('[name="loginField"]');
-        this.password = $('[name="passwordField"]');
+
 
         // Définition du listener sur le formulaire
         this.formListener();
@@ -34,10 +32,19 @@ export class Login {
         let login = this.login;
         let password = this.password;
 
-        $('#loginForm').on(
+        const app = $('[app]');
+
+
+        //$('#loginForm').on(
+        app.on(
             'keyup',
+            '#loginForm', //Délégation d'évènement...
             // Callback : fonction appelée si l'événement défini survient
             function (event) {
+
+                // Définition des attributs
+                let login = $('[name="loginField"]');
+                let password = $('[name="passwordField"]');
 
                 // Est-ce que les deux champs sont remplis
                 if (
@@ -54,12 +61,25 @@ export class Login {
     }
 
     submitListener() {
-        let login = this.login;
-        let password = this.password;
+        // let login = this.login;
+        // let password = this.password;
 
-        $('#loginForm').on(
+        const app = $('[app]');
+
+
+        //$('#loginForm').on(
+        app.on(
             'submit',
+            '#loginForm',
+
+
             function (event) {
+
+                // Définition des attributs
+                let login = $('[name="loginField"]');
+                let password = $('[name="passwordField"]');
+
+
                 event.preventDefault(); // Empêche l'action par défaut...
 
                 // Instancie un nouvel utilisateur
@@ -77,6 +97,24 @@ export class Login {
                     $('#main-title').html('Bienvenue');
                     const menu = new Menu();
                     menu.setUser(user);
+
+                    //On va essayer d'aller vers une autre page
+                    document.location.replace('#mystories');
+
+
+                    
+
+
+
+
+
+
+
+
+
+
+
+
                 } else {
                     console.log('Dommage, échec!');
                     // Efface les champs et désactive le bouton
