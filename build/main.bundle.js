@@ -281,98 +281,201 @@ var Menu = exports.Menu = function () {
     return Menu;
 }();
 
-/** 
+/*
 export class Menu {
-   constructor() {
+    constructor() {
+        this.options = [
+            {title: 'Accueil', active: 'always', path: '/'},
+            {title: 'Toutes les Stories', active: 'isAdmin', path: '/allstories'},
+            {title: 'Mes stories', active: 'always', path: '/mystories'},
+            {title: 'Mon compte', active: 'always', options : [
+                {title: 'Mes préférences', path: '/settings'},
+                {title: 'Changer de mot de passe', path: '/changepassword'},
+                {divider: true},
+                {title: 'Déconnexion', path: '/logout'}
+            ]}
+        ];
+    }
 
-       // Tableau d'objets json dont un objet est lui même un tableau d'objets json
-       this.options = [
-           { title: 'Accueil', active: 'always', path: '/' },
-           { title: 'Toutes les Stories', active: 'isAdmin', path: '/allstories' },
-           { title: 'Mes stories', active: 'always', path: '/mystories'},
-           {
-               title: 'Mon compte', active: 'always', options: [
-                   { title: 'Mes préférences', path: '/settings'},
-                   { title: 'Changer de mot de passe', path: '/changepassword'},
-                   { divider: true },
-                   { title: 'Déconnexion', path: '/logout'}
-               ]
-           }
-       ];
-   }
+    /**
+     * Définit l'utilisateur connecté
+     * @param {*} user 
+     
+    setUser(user) {
+        this.user = user;
+        // Met à jour le menu Utilisateur
+        this._update();
 
-   //
-   // Définit l'utilisateur connecté
-   // @param {*} user 
-   
+        // Active ou pas les options
+        this._activate();
+    }
+
+    _update() {
+        // Mise à jour de l'option du menu : (userName)
+        const userMenu = $('#userMenu');
+        userMenu.html(this.user.userName);
+
+        // On définit les options du menu
+        const dropdownBlock = $('#userMenuOptions');
+
+        // Virer les options existantes
+        dropdownBlock.empty();
+
+        // Recharge les options à partir de la définition
+        const userMenuOptions = this.options[3].options;
+        for (const option of userMenuOptions) {
+            const item = this._makeOption(option);
+            item.appendTo(dropdownBlock);
+        }
+
+        // En fin de parcours, on affiche le menu
+        dropdownBlock.removeClass('hidden');
+    }
+
+    /**
+     * Nettoie le menu Utilisateur à la déconnexion
+     
+    clear() {
+        // On définit les options du menu
+        const dropdownBlock = $('#userMenuOptions');
+
+        // Virer les options existantes
+        dropdownBlock.empty();
+
+        dropdownBlock.addClass('hidden');
+        
+        const userMenu = $('#userMenu');
+        userMenu.html('Utilisateur');
+    }
+
+    _makeOption(option) {
+        let item = null;
+
+        if (option.hasOwnProperty('title')) {
+            // link logic here
+            item = $('<a>');
+            item
+                .addClass('dropdown-item')
+                .attr('href', '#' + option.path)
+                .html(option.title);
+            // <a class="dropdown-item" href="#">Action</a>
+        } else {
+            // divider logic here
+            // <div class="dropdown-divider"></div>
+            item = $('<div>');
+            item
+                .addClass('dropdown-divider');
+
+        }
+        return item;
+    }
+
+    _activate() {
+        for (let option of this.options) {
+            const item = $('[title="' + option.title + '"]');
+            
+            if (option.active === 'always') {
+                item.removeClass('disabled');
+            } else if (option.active === 'isAdmin' && this.user.group === 'Administrateur') {
+                item.removeClass('disabled');
+            }
+        }
+    }
+}
+
+
+ /** 
+export class Menu {
+    constructor() {
+
+        // Tableau d'objets json dont un objet est lui même un tableau d'objets json
+        this.options = [
+            { title: 'Accueil', active: 'always', path: '/' },
+            { title: 'Toutes les Stories', active: 'isAdmin', path: '/allstories' },
+            { title: 'Mes stories', active: 'always', path: '/mystories'},
+            {
+                title: 'Mon compte', active: 'always', options: [
+                    { title: 'Mes préférences', path: '/settings'},
+                    { title: 'Changer de mot de passe', path: '/changepassword'},
+                    { divider: true },
+                    { title: 'Déconnexion', path: '/logout'}
+                ]
+            }
+        ];
+    }
+
+    //
+    // Définit l'utilisateur connecté
+    // @param {*} user 
+    
 
 
 
-   setUser(user) {
-       this.user = user;
-       // Met à jour le menu Utilisateur
-       this._update();
+    setUser(user) {
+        this.user = user;
+        // Met à jour le menu Utilisateur
+        this._update();
 
-       // Active ou pas les options
-       this._activate();
-   }
+        // Active ou pas les options
+        this._activate();
+    }
 
-   _update() {
-       console.log('coucou');
-       // Mise à jour de l'option du menu : (userName)
-       const userMenu = $('#userMenu');
-       userMenu.html(this.user.userName);
+    _update() {
+        console.log('coucou');
+        // Mise à jour de l'option du menu : (userName)
+        const userMenu = $('#userMenu');
+        userMenu.html(this.user.userName);
 
-       // On définit les options du menu
-       const dropdownBlock = $('#userMenuOptions');
+        // On définit les options du menu
+        const dropdownBlock = $('#userMenuOptions');
 
-       // Virer les options existantes
-       dropdownBlock.empty();
+        // Virer les options existantes
+        dropdownBlock.empty();
 
-       // Recharge les options à partir de la définition
-       const userMenuOptions = this.options[3].options;
-       for (const option of userMenuOptions) {
-           const item = this._makeOption(option);
-           item.appendTo(dropdownBlock);
-       }
+        // Recharge les options à partir de la définition
+        const userMenuOptions = this.options[3].options;
+        for (const option of userMenuOptions) {
+            const item = this._makeOption(option);
+            item.appendTo(dropdownBlock);
+        }
 
-       // En fin de parcours, on affiche le menu
-       dropdownBlock.removeClass('hidden');
-   }
+        // En fin de parcours, on affiche le menu
+        dropdownBlock.removeClass('hidden');
+    }
 
-   _makeOption(option) {
-       let item = null;
+    _makeOption(option) {
+        let item = null;
 
-       if (option.hasOwnProperty('title')) {
-           // link logic here
-           item = $('<a>');
-           item
-               .addClass('dropdown-item')
-               .attr('href', '#' + option.path)
-               .html(option.title);
-           // <a class="dropdown-item" href="#">Action</a>
-       } else {
-           // divider logic here
-           // <div class="dropdown-divider"></div>
-           item = $('<div>');
-           item
-               .addClass('dropdown-divider');
+        if (option.hasOwnProperty('title')) {
+            // link logic here
+            item = $('<a>');
+            item
+                .addClass('dropdown-item')
+                .attr('href', '#' + option.path)
+                .html(option.title);
+            // <a class="dropdown-item" href="#">Action</a>
+        } else {
+            // divider logic here
+            // <div class="dropdown-divider"></div>
+            item = $('<div>');
+            item
+                .addClass('dropdown-divider');
 
-       }
-       return item;
-   }
+        }
+        return item;
+    }
 
-   _activate() {
-       for (let option of this.options) {
-           const item = $('[title="' + option.title + '"]');
+    _activate() {
+        for (let option of this.options) {
+            const item = $('[title="' + option.title + '"]');
 
-           if (option.active === 'always') {
-               item.removeClass('disabled');
-           } else if (option.active === 'isAdmin' && this.user.group === 'Administrateur') {
-               item.removeClass('disabled');
-           }
-       }
-   }
+            if (option.active === 'always') {
+                item.removeClass('disabled');
+            } else if (option.active === 'isAdmin' && this.user.group === 'Administrateur') {
+                item.removeClass('disabled');
+            }
+        }
+    }
 }
 
 
@@ -736,7 +839,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @version 1.0.0
  */
 
-/** 
+/*
 export class Toast {
     constructor(params) {
         //Objet créé dans login.class avec const toast = new Toast
@@ -754,7 +857,7 @@ export class Toast {
 
 
             //Durée d'affichage du toast (en secondes)
-            this.duration = 5;
+            this.duration = 7;
         } else {
             this.duration = params.duration;
 
@@ -790,7 +893,9 @@ export class Toast {
             .addClass(this.backgroundClass)
             .addClass('animated')
             .addClass('fadeInDownBig')
-            .html(this.message);
+            .css('width', this.width)
+            .css('height', this.height)
+            .html('<p>' + this.message + '</p>');
 
         //Ajoute le toaster au document lui-même
 
@@ -817,8 +922,7 @@ export class Toast {
         );
     }
 }
-
-**/
+*/
 
 var Toast = exports.Toast = function () {
     function Toast(params) {
@@ -833,7 +937,7 @@ var Toast = exports.Toast = function () {
 
         if (!params.hasOwnProperty('duration')) {
             // Durée d'affichage du toast (en secondes)
-            this.duration = 7;
+            this.duration = 3;
         } else {
             this.duration = params.duration;
         }
@@ -874,15 +978,19 @@ var Toast = exports.Toast = function () {
             var toaster = $('<div>');
 
             // On lui ajoute les classes
-            toaster.addClass('toast').addClass(this.backgroundClass).css('width', this.width).css('height', this.height).html('<p>' + this.message + '</p>');
+            toaster.addClass('toast').addClass(this.backgroundClass).addClass('animated').addClass('fadeInDownBig').css('width', this.width).css('height', this.height).html('<p>' + this.message + '</p>');
 
             // Ajoute le toaster au document lui-même
             toaster.appendTo($('body'));
 
             // Affiche pendant un certain temps
             setTimeout(function () {
-                // Ici, quand on arrive au bout de l'intervalle de temps
-                toaster.remove();
+                toaster.removeClass('fadeInRightBig').addClass('fadeOutRightBig');
+                // On va attendre, avant de le supprimer
+                setTimeout(function () {
+                    // Ici, quand on arrive au bout de l'intervalle de temps
+                    toaster.remove();
+                }, 1500);
             }, this.duration * 1000);
         }
     }]);

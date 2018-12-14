@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-/** 
+/*
 export class Toast {
     constructor(params) {
         //Objet créé dans login.class avec const toast = new Toast
@@ -23,7 +23,7 @@ export class Toast {
 
 
             //Durée d'affichage du toast (en secondes)
-            this.duration = 5;
+            this.duration = 7;
         } else {
             this.duration = params.duration;
 
@@ -59,7 +59,9 @@ export class Toast {
             .addClass(this.backgroundClass)
             .addClass('animated')
             .addClass('fadeInDownBig')
-            .html(this.message);
+            .css('width', this.width)
+            .css('height', this.height)
+            .html('<p>' + this.message + '</p>');
 
         //Ajoute le toaster au document lui-même
 
@@ -86,8 +88,8 @@ export class Toast {
         );
     }
 }
+*/
 
-**/
 
 
 
@@ -104,7 +106,7 @@ export class Toast {
 
         if (!params.hasOwnProperty('duration')) {
             // Durée d'affichage du toast (en secondes)
-            this.duration = 7;
+            this.duration = 3;
         } else {
             this.duration = params.duration;
         }
@@ -144,6 +146,8 @@ export class Toast {
         toaster
             .addClass('toast')
             .addClass(this.backgroundClass)
+            .addClass('animated')
+            .addClass('fadeInDownBig')
             .css('width', this.width)
             .css('height', this.height)
             .html('<p>' + this.message + '</p>');
@@ -154,11 +158,18 @@ export class Toast {
         // Affiche pendant un certain temps
         setTimeout(
             function() {
-                // Ici, quand on arrive au bout de l'intervalle de temps
-                toaster.remove();
+                toaster
+                    .removeClass('fadeInRightBig')
+                    .addClass('fadeOutRightBig');
+                // On va attendre, avant de le supprimer
+                setTimeout(function() { 
+                    // Ici, quand on arrive au bout de l'intervalle de temps
+                    toaster.remove();
+                }, 1500);
             },
             this.duration * 1000
         );
     }
 }
+
 
