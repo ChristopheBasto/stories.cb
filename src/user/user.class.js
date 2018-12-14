@@ -7,22 +7,96 @@
  */
 
 export class User {
-    constructor() { }
+    constructor() {}
 
     /**
      * Définit le username de l'utilisateur
-     * @param {*} userName
+     * @param {*} userName 
      */
+    setUserName(userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * Définit le mot de passe utilisateur
+     * @param {*} password 
+     */
+    setPassword(password) {
+        this.password = password;
+    }
+
+    /**
+     * Identifie l'utilisateur à partir d'un login et d'un mot de passe
+     * @return boolean
+     */
+    authenticate() {
+        // Appel vers le serveur :
+        // GET http://localhost:3000/users/:login/:password
+
+        let user = this;
+        return new Promise((resolve) => {
+            $.ajax({
+                url: 'http://localhost:3000/users/' + this.userName + '/' + this.password,
+                method: 'get',
+                responseType: 'json',
+                success: function(datas) {
+                    const srvUser = datas[0];
+
+                    if (srvUser) {
+                        user.userName = srvUser.username;
+                        user.group = srvUser.libelle;
+                        user.name = srvUser.lastname;
+                        user.forname = srvUser.forname;
+                        user.civilite = srvUser.civilite;
+        
+                        const persistentUser = {
+                            userName: user.userName,
+                            group: user.group
+                        };
+        
+                        // On ajoute l'utilisateur au localStorage
+                        localStorage.setItem('storiesUser', JSON.stringify(persistentUser));
+
+                        resolve(true);
+                    } else {
+                        // Pas d'utilisateur... désolé
+                        resolve(false);
+                    }
+
+                },
+                error: function(xhr, error) {
+                    resolve(false);
+                },
+            });
+        });
+    }
+}
+
+
+
+
+
+
+
+
+ /*
+export class User {
+    constructor() { }
+
+    //
+    //* Définit le username de l'utilisateur
+    // * @param {*} userName
+     //
 
     setUserName(userName) {
         this.userName = userName;
         // On prend ce qui a été saisi par l'utilisateur et on la range dans userName
     }
 
-    /**
-     * Définit le mot de passe de l'utilisateur
-     * @param {*} password
-     */
+    //**
+     //* Définit le mot de passe de l'utilisateur
+     //* @param {*} password
+     //
 
     setPassword(password) {
         this.password = password;
@@ -30,25 +104,55 @@ export class User {
 
 
     /**
-     * Identifie l'utilisateur à partir d'un login et d'un mot de passe
-     * @return boolean
-     */
+     //* Identifie l'utilisateur à partir d'un login et d'un mot de passe
+     //* @return boolean
+     
     authenticate() {
-        if (this.userName === 'cbasto' && this.password === 'cbasto') {
-            this.group = 'Administrateur';
+        // Appel vers le serveur : 
+        // GET http://loalhost:3000/users/:login/:password
 
-            //Ajout de l'utilisateur dans localStorage
-            const persistentUser = {
-                userName: this.userName,
-                group: this.group
-            };
+        let user = this;
+      return new Promise((resolve) => {
 
-            //localStorage : stockage du navigateur
-            localStorage.setItem('storiesUser', JSON.stringify(persistentUser));
+        $.ajax({
+            url: 'http://localhost:3000/users' + this.userName + '/' + this.password,
+            method: 'get',
+            responseType: 'json',
+            success: function (datas) {
+                const srvUser = datas[0];
+                if(srvUser) {
+                user.userName = srvUser.login;
+                user.group = srvUser.libelle;
+                user.name = srvUser.nom;
+                user.forname = srvUser.prenom;
+                user.civilite = srvUser.civilite;
+
+                const persistentUser = {
+                    userName: user.userName,
+                    group: user.group
+                };
+
+                //On ajoute l'utilisateur au localStorage
+                localStorage.setItem('storiesUser', JSON.stringify(user));
+
+                
+               resolve(true);
+            } else {
+                // Pas d'utilisateur désolé ...
+                resolve(false);
+            }
+
+            },
+            error: function (xhr, error) {
+                resolve(false);
+
+                //NOOP
+            },
             
-            return true;
-
-        }
-        return false;
+        });
+      });
+       
     }
 }
+
+*/

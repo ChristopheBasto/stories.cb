@@ -1025,21 +1025,17 @@ var Login = exports.Login = function () {
      * formListener Gestionnaire d'événement sur le formulaire de login
      * @param void
      * @return void
-     * **/
+     */
+
 
     _createClass(Login, [{
         key: 'formListener',
         value: function formListener() {
-            var login = this.login;
-            var password = this.password;
-
             var app = $('[app]');
 
-            //$('#loginForm').on(
-            app.on('keyup', '#loginForm', //Délégation d'évènement...
+            app.on('keyup', '#loginForm', // Délégation d'événement...
             // Callback : fonction appelée si l'événement défini survient
             function (event) {
-
                 // Définition des attributs
                 var login = $('[name="loginField"]');
                 var password = $('[name="passwordField"]');
@@ -1057,14 +1053,8 @@ var Login = exports.Login = function () {
     }, {
         key: 'submitListener',
         value: function submitListener() {
-            // let login = this.login;
-            // let password = this.password;
-
             var app = $('[app]');
-
-            //$('#loginForm').on(
             app.on('submit', '#loginForm', function (event) {
-
                 // Définition des attributs
                 var login = $('[name="loginField"]');
                 var password = $('[name="passwordField"]');
@@ -1078,17 +1068,148 @@ var Login = exports.Login = function () {
                 user.setUserName(login.val());
                 user.setPassword(password.val());
 
-                // Gère l'authentification...
-                if (user.authenticate() === true) {
+                user.authenticate().then(function (aUser) {
+                    // Gère l'authentification...
+                    if (aUser) {
+                        console.log('Bravo, tu peux continuer !');
+                        // Instancie le menu...
+
+                        $(document).attr('title', 'Bienvenue');
+                        $('#main-title').html('Bienvenue');
+                        var menu = new _menu.Menu();
+                        menu.setUser(user);
+
+                        // On va essayer d'aller vers une autre page
+                        document.location.replace('#/mystories');
+                    } else {
+                        console.log('Dommage, échec !');
+                        // Efface les champs et désactive le bouton
+                        login.val('');
+                        password.val('');
+
+                        $('#btnLogin').attr('disabled', 'disabled');
+
+                        // On peut instancier un toast
+                        var toast = new _toaster.Toast({
+                            message: 'Ce login ou ce mot de passe ne correspond à aucun utilisateur',
+                            duration: 4,
+                            background: 'warning',
+                            width: 200,
+                            height: 100
+                        });
+                        toast.toastIt();
+                    }
+                });
+            });
+        }
+    }]);
+
+    return Login;
+}();
+
+/*
+export class Login {
+    constructor() {
+        // Modifier le titre du document HTML
+        $(document).attr('title', 'Identification');
+
+        // Modifier le titre de la page
+        $('#main-title').html('Identifiez-vous');
+
+
+
+        // Définition du listener sur le formulaire
+        this.formListener();
+        this.submitListener();
+    }
+
+    
+     //* formListener Gestionnaire d'événement sur le formulaire de login
+     //* @param void
+     //* @return void
+     //* 
+
+
+    formListener() {
+        let login = this.login;
+        let password = this.password;
+
+        const app = $('[app]');
+
+
+        //$('#loginForm').on(
+        app.on(
+            'keyup',
+            '#loginForm', //Délégation d'évènement...
+            // Callback : fonction appelée si l'événement défini survient
+            function (event) {
+
+                // Définition des attributs
+                let login = $('[name="loginField"]');
+                let password = $('[name="passwordField"]');
+
+                // Est-ce que les deux champs sont remplis
+                if (
+                    password.val() !== '' &&
+                    login.val().length >= 5) {
+                    // On peut activer le bouton...
+                    $('#btnLogin').removeAttr('disabled');
+                } else {
+                    // Non, ça ne le fait pas tout seul, il faut lui dire
+                    $('#btnLogin').attr('disabled', 'disabled');
+                }
+            }
+        );
+    }
+
+    submitListener() {
+        // let login = this.login;
+        // let password = this.password;
+
+        const app = $('[app]');
+
+
+        //$('#loginForm').on(
+        app.on(
+            'submit',
+            '#loginForm',
+
+
+            function (event) {
+
+                // Définition des attributs
+                let login = $('[name="loginField"]');
+                let password = $('[name="passwordField"]');
+
+
+                event.preventDefault(); // Empêche l'action par défaut...
+
+                // Instancie un nouvel utilisateur
+                const user = new User();
+
+                // Définit le login et le password de l'utilisateur
+                user.setUserName(login.val());
+                user.setPassword(password.val());
+
+                user.authenticate().then((aUser) => {
+
+
+                    // Gère l'authentification...
+                if (aUser) {
                     console.log('Bravo tu peux continuer!!');
                     // Instancie le menu...
                     $(document).attr('title', 'Bienvenue');
                     $('#main-title').html('Bienvenue');
-                    var menu = new _menu.Menu();
+                    const menu = new Menu();
                     menu.setUser(user);
 
                     //On va essayer d'aller vers une autre page
                     document.location.replace('#mystories');
+
+
+
+
+
                 } else {
                     console.log('Dommage, échec!');
                     // Efface les champs et désactive le bouton
@@ -1098,21 +1219,27 @@ var Login = exports.Login = function () {
                     $('#btnLogin').attr('disabled', 'disabled');
 
                     // On peut instancier un toast
-                    var toast = new _toaster.Toast({
-                        message: 'Ce login ou ce mot de passe ne correspond à aucun utilisateur',
-                        duration: 10,
-                        background: 'warning',
-                        width: 200,
-                        height: 100
-                    });
+                    const toast = new Toast(
+                        {
+                            message: 'Ce login ou ce mot de passe ne correspond à aucun utilisateur',
+                            duration: 10,
+                            background: 'warning',
+                            width: 200,
+                            height: 100
+                        }
+                    );
                     toast.toastIt();
                 }
-            });
-        }
-    }]);
 
-    return Login;
-}();
+                });
+
+                
+            }
+        );
+    }
+}
+
+*/
 
 /***/ }),
 
@@ -1340,19 +1467,19 @@ var User = exports.User = function () {
 
     /**
      * Définit le username de l'utilisateur
-     * @param {*} userName
+     * @param {*} userName 
      */
+
 
     _createClass(User, [{
         key: 'setUserName',
         value: function setUserName(userName) {
             this.userName = userName;
-            // On prend ce qui a été saisi par l'utilisateur et on la range dans userName
         }
 
         /**
-         * Définit le mot de passe de l'utilisateur
-         * @param {*} password
+         * Définit le mot de passe utilisateur
+         * @param {*} password 
          */
 
     }, {
@@ -1369,26 +1496,129 @@ var User = exports.User = function () {
     }, {
         key: 'authenticate',
         value: function authenticate() {
-            if (this.userName === 'cbasto' && this.password === 'cbasto') {
-                this.group = 'Administrateur';
+            var _this = this;
 
-                //Ajout de l'utilisateur dans localStorage
-                var persistentUser = {
-                    userName: this.userName,
-                    group: this.group
-                };
+            // Appel vers le serveur :
+            // GET http://localhost:3000/users/:login/:password
 
-                //localStorage : stockage du navigateur
-                localStorage.setItem('storiesUser', JSON.stringify(persistentUser));
+            var user = this;
+            return new Promise(function (resolve) {
+                $.ajax({
+                    url: 'http://localhost:3000/users/' + _this.userName + '/' + _this.password,
+                    method: 'get',
+                    responseType: 'json',
+                    success: function success(datas) {
+                        var srvUser = datas[0];
 
-                return true;
-            }
-            return false;
+                        if (srvUser) {
+                            user.userName = srvUser.username;
+                            user.group = srvUser.libelle;
+                            user.name = srvUser.lastname;
+                            user.forname = srvUser.forname;
+                            user.civilite = srvUser.civilite;
+
+                            var persistentUser = {
+                                userName: user.userName,
+                                group: user.group
+                            };
+
+                            // On ajoute l'utilisateur au localStorage
+                            localStorage.setItem('storiesUser', JSON.stringify(persistentUser));
+
+                            resolve(true);
+                        } else {
+                            // Pas d'utilisateur... désolé
+                            resolve(false);
+                        }
+                    },
+                    error: function error(xhr, _error) {
+                        resolve(false);
+                    }
+                });
+            });
         }
     }]);
 
     return User;
 }();
+
+/*
+export class User {
+   constructor() { }
+
+   //
+   //* Définit le username de l'utilisateur
+   // * @param {*} userName
+    //
+
+   setUserName(userName) {
+       this.userName = userName;
+       // On prend ce qui a été saisi par l'utilisateur et on la range dans userName
+   }
+
+   //**
+    //* Définit le mot de passe de l'utilisateur
+    //* @param {*} password
+    //
+
+   setPassword(password) {
+       this.password = password;
+   }
+
+
+   /**
+    //* Identifie l'utilisateur à partir d'un login et d'un mot de passe
+    //* @return boolean
+    
+   authenticate() {
+       // Appel vers le serveur : 
+       // GET http://loalhost:3000/users/:login/:password
+
+       let user = this;
+     return new Promise((resolve) => {
+
+       $.ajax({
+           url: 'http://localhost:3000/users' + this.userName + '/' + this.password,
+           method: 'get',
+           responseType: 'json',
+           success: function (datas) {
+               const srvUser = datas[0];
+               if(srvUser) {
+               user.userName = srvUser.login;
+               user.group = srvUser.libelle;
+               user.name = srvUser.nom;
+               user.forname = srvUser.prenom;
+               user.civilite = srvUser.civilite;
+
+               const persistentUser = {
+                   userName: user.userName,
+                   group: user.group
+               };
+
+               //On ajoute l'utilisateur au localStorage
+               localStorage.setItem('storiesUser', JSON.stringify(user));
+
+               
+              resolve(true);
+           } else {
+               // Pas d'utilisateur désolé ...
+               resolve(false);
+           }
+
+           },
+           error: function (xhr, error) {
+               resolve(false);
+
+               //NOOP
+           },
+           
+       });
+     });
+      
+   }
+}
+
+*/
 
 /***/ })
 
