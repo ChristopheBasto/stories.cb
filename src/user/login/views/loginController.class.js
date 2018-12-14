@@ -8,6 +8,37 @@
 
  import { Login } from './../../login.class';
 
+
+ 
+ export class LoginController {
+    constructor() {
+        // Définit la vue pour ce contrôleur
+        this.view = './src/user/login/views/loginform.view.html';
+
+        // Instancier la classe Login pour la gestion du formulaire
+        this.login = new Login();
+    }
+
+    /**
+     * Méthode pour récupérer la vue à afficher
+     */
+    getView() {
+        // Récupère le placeholder de mon application
+        const app = $('[app]');
+
+        $.get(
+            this.view,
+            // Callback appelée après que le fichier ait été chargé
+            function(viewContent) {
+                app.empty(); // Vide le contenu le cas échéant
+                app.html(viewContent);
+            }
+        );
+    }
+}
+
+
+ /*
 export class LoginController {
     constructor() {
         //Définition de la vue (ce qui est affiché) pour ce contrôleur
@@ -18,7 +49,7 @@ export class LoginController {
 
     /**
      * Méthode pour récupérer la vue à afficher
-     */
+     
     getView() {
         //Récupère le placeholder de mon application
         const app = $('[app]');
@@ -38,3 +69,4 @@ export class LoginController {
     }
 
 }
+*/

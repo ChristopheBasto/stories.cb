@@ -1,6 +1,6 @@
 
 
-import { Menu } from '../../../../menu/menu.class';
+import { Menu } from '../../../menu/menu.class';
 import {UserService} from '../../../services/user-service.class'
 
 

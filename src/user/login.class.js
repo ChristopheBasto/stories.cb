@@ -1,5 +1,5 @@
 import { User } from './user.class';
-import { Menu } from './../../menu/menu.class';
+import { Menu } from './../../src/menu/menu.class';
 import { Toast } from './../modules/toaster/toaster.class';
 
 

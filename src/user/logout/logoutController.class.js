@@ -6,7 +6,7 @@
  */
 import { LoginController } from './../login/views/loginController.class';
 import { UserService } from '../../services/user-service.class';
-import { Menu } from '../../../menu/menu.class';
+import { Menu } from '../../menu/menu.class';
 
 export class LogoutController {
     constructor() {

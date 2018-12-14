@@ -112,10 +112,67 @@ router.add(new _route.Route('/', 'LoginController', userService)).add(new _route
 
 /***/ }),
 
-/***/ "./menu/menu.class.js":
-/*!****************************!*\
-  !*** ./menu/menu.class.js ***!
-  \****************************/
+/***/ "./src/errors/error.class.js":
+/*!***********************************!*\
+  !*** ./src/errors/error.class.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * @name Error
+ * @desorc Contrôleur pour l'affichage des erreurs de routage
+ * @author Aélion
+ * @version 1.0.0
+ */
+var Error = exports.Error = function () {
+    function Error() {
+        _classCallCheck(this, Error);
+
+        // Définit la vue pour ce contrôleur
+        this.view = './src/errors/views/error.view.html';
+    }
+
+    /**
+     * Méthode pour récupérer la vue à afficher
+     */
+
+
+    _createClass(Error, [{
+        key: 'getView',
+        value: function getView() {
+            // Récupère le placeholder de mon application
+            var app = $('[app]');
+
+            $.get(this.view,
+            // Callback appelée après que le fichier ait été chargé
+            function (viewContent) {
+                app.empty(); // Vide le contenu le cas échéant
+                app.html(viewContent);
+            });
+        }
+    }]);
+
+    return Error;
+}();
+
+/***/ }),
+
+/***/ "./src/menu/menu.class.js":
+/*!********************************!*\
+  !*** ./src/menu/menu.class.js ***!
+  \********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -483,63 +540,6 @@ export class Menu {
 
 /***/ }),
 
-/***/ "./src/errors/error.class.js":
-/*!***********************************!*\
-  !*** ./src/errors/error.class.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * @name Error
- * @desorc Contrôleur pour l'affichage des erreurs de routage
- * @author Aélion
- * @version 1.0.0
- */
-var Error = exports.Error = function () {
-    function Error() {
-        _classCallCheck(this, Error);
-
-        // Définit la vue pour ce contrôleur
-        this.view = './src/errors/views/error.view.html';
-    }
-
-    /**
-     * Méthode pour récupérer la vue à afficher
-     */
-
-
-    _createClass(Error, [{
-        key: 'getView',
-        value: function getView() {
-            // Récupère le placeholder de mon application
-            var app = $('[app]');
-
-            $.get(this.view,
-            // Callback appelée après que le fichier ait été chargé
-            function (viewContent) {
-                app.empty(); // Vide le contenu le cas échéant
-                app.html(viewContent);
-            });
-        }
-    }]);
-
-    return Error;
-}();
-
-/***/ }),
-
 /***/ "./src/modules/router/route.class.js":
 /*!*******************************************!*\
   !*** ./src/modules/router/route.class.js ***!
@@ -839,94 +839,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @version 1.0.0
  */
 
-/*
-export class Toast {
-    constructor(params) {
-        //Objet créé dans login.class avec const toast = new Toast
-        // méthode propre aux objets : hasOwnProperty = regarde dans params s'il y a un attribut background
-        //S'il ne contient pas l'attribut backgroung (négation avec le !), transmet moi 'danger' sinon transmet ce qu'il y a dans l'objet
-        if (!params.hasOwnProperty('background')) {
-            //Paramètres de définition de la couleur de fond du toast
-            this.backgroundClass = 'danger';
-
-        } else {
-            this.backgroundClass = params.background;
-        }
-
-        if (!params.hasOwnProperty('duration')) {
-
-
-            //Durée d'affichage du toast (en secondes)
-            this.duration = 7;
-        } else {
-            this.duration = params.duration;
-
-        }
-
-        if (!params.hasOwnProperty('message')) {
-            this.message = 'Default message';
-        } else {
-            this.message = params.message;
-        }
-    }
-
-    setBackground(cssClass) {
-        this.backgroundClass = cssClass;
-    }
-
-    setDuration(duration) {
-        this.duration = duration;
-    }
-
-
-
-
-
-    toastIt() {
-
-        //Création en mémoire (avec $) d'un nouvel élément dans le DOM
-        const toaster = $('<div>');
-
-        //On lui ajoute les classes 
-        toaster
-            .addClass('toast')
-            .addClass(this.backgroundClass)
-            .addClass('animated')
-            .addClass('fadeInDownBig')
-            .css('width', this.width)
-            .css('height', this.height)
-            .html('<p>' + this.message + '</p>');
-
-        //Ajoute le toaster au document lui-même
-
-        toaster.appendTo($('body'));
-
-        //Affichage pendant un certain temps
-        setTimeout(
-            function () {
-                setTimeout(
-                    function () {
-
-                        toaster
-
-                            .addClass('fadeOutRightBig');
-
-
-                    },
-                    (this.duration / 2) * 1000
-                );
-                toaster.remove();
-            },
-            //Ici, quand on arrive au bout de l'intervalle de temps
-            this.duration * 1000
-        );
-    }
-}
-*/
-
 var Toast = exports.Toast = function () {
     function Toast(params) {
         _classCallCheck(this, Toast);
+
+        //Objet créé dans login.class avec const toast = new Toast
+        // méthode propre aux objets : hasOwnProperty = regarde dans params s'il y a un attribut background
+        //S'il ne contient pas l'attribut background (négation avec le !), transmet moi 'danger' sinon transmet ce qu'il y a dans l'objet
 
         if (!params.hasOwnProperty('background')) {
             // Paramètre de définition de la couleur de fond du toast
@@ -937,7 +856,7 @@ var Toast = exports.Toast = function () {
 
         if (!params.hasOwnProperty('duration')) {
             // Durée d'affichage du toast (en secondes)
-            this.duration = 3;
+            this.duration = 7;
         } else {
             this.duration = params.duration;
         }
@@ -983,15 +902,16 @@ var Toast = exports.Toast = function () {
             // Ajoute le toaster au document lui-même
             toaster.appendTo($('body'));
 
-            // Affiche pendant un certain temps
+            //Affichage pendant un certain temps
             setTimeout(function () {
-                toaster.removeClass('fadeInRightBig').addClass('fadeOutRightBig');
-                // On va attendre, avant de le supprimer
                 setTimeout(function () {
-                    // Ici, quand on arrive au bout de l'intervalle de temps
-                    toaster.remove();
-                }, 1500);
-            }, this.duration * 1000);
+
+                    toaster.addClass('fadeOutRightBig');
+                }, this.duration / 2 * 1000);
+                toaster.remove();
+            },
+            //Ici, quand on arrive au bout de l'intervalle de temps
+            this.duration * 1000);
         }
     }]);
 
@@ -1039,11 +959,10 @@ var UserService = exports.UserService = function () {
      * @return boolean
      */
 
+
     _createClass(UserService, [{
         key: 'hasUser',
         value: function hasUser() {
-
-            //lire données dans localStorage = getItem et JSON.parse prendre une chaine de caractères et transformer en objet
             var user = JSON.parse(localStorage.getItem('storiesUser'));
             if (user) {
                 this.user = new _user.User();
@@ -1062,13 +981,12 @@ var UserService = exports.UserService = function () {
         }
 
         /**
-        * Retourne un objet Utilisateur à partir du localStorage
-        */
+         * Retourne un objet Utilisateur à partir du localStorage
+         */
 
     }, {
         key: 'getUser',
         value: function getUser() {
-
             var localUser = JSON.parse(localStorage.getItem('storiesUser'));
             var user = new _user.User();
             user.setUserName(localUser.userName);
@@ -1086,6 +1004,59 @@ var UserService = exports.UserService = function () {
 
     return UserService;
 }();
+
+/*
+ export class UserService {
+     constructor() {
+         this.user = {};
+     }
+
+     /**
+      * Lit localStorage pour récupérer un éventuel utilisateur
+      * @return boolean
+      *
+
+     hasUser() {
+
+        //lire données dans localStorage = getItem et JSON.parse prendre une chaine de caractères et transformer en objet
+         const user = JSON.parse(localStorage.getItem('storiesUser'));
+         if (user) {
+            this.user = new User();
+            this.user.setUserName(user.userName);
+            this.user.group = user.group;
+
+
+             return true;
+         }
+         return false;
+     }
+     removeUser() {
+        localStorage.removeItem('storiesUser');
+        this.user = {};
+     }
+
+     /**
+     * Retourne un objet Utilisateur à partir du localStorage
+     
+
+     getUser() {
+         
+         const localUser = JSON.parse(localStorage.getItem('storiesUser'));
+         const user = new User();
+         user.setUserName(localUser.userName);
+         user.group = localUser.group;
+         console.log('UserService::getUser');
+         return user;
+         
+     }
+     getAuthenticateUser() {
+         this.hasUser();
+         return this.user;
+     }
+     
+ }
+
+ */
 
 /***/ }),
 
@@ -1108,7 +1079,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _user = __webpack_require__(/*! ./user.class */ "./src/user/user.class.js");
 
-var _menu = __webpack_require__(/*! ./../../menu/menu.class */ "./menu/menu.class.js");
+var _menu = __webpack_require__(/*! ./../../src/menu/menu.class */ "./src/menu/menu.class.js");
 
 var _toaster = __webpack_require__(/*! ./../modules/toaster/toaster.class */ "./src/modules/toaster/toaster.class.js");
 
@@ -1381,9 +1352,10 @@ var LoginController = exports.LoginController = function () {
     function LoginController() {
         _classCallCheck(this, LoginController);
 
-        //Définition de la vue (ce qui est affiché) pour ce contrôleur
+        // Définit la vue pour ce contrôleur
         this.view = './src/user/login/views/loginform.view.html';
-        //console.log('Vue' + this.view);
+
+        // Instancier la classe Login pour la gestion du formulaire
         this.login = new _login.Login();
     }
 
@@ -1395,23 +1367,53 @@ var LoginController = exports.LoginController = function () {
     _createClass(LoginController, [{
         key: 'getView',
         value: function getView() {
-            //Récupère le placeholder de mon application
+            // Récupère le placeholder de mon application
             var app = $('[app]');
 
-            //console.log('Tente de charger : ' + this.view);
-            //Méthode de jquery (get) qui permet d'aller cherche un fichier quelque part et de la retourner dans une fonction (on récupère avec get et si succès, on le récupère dans la fonction)
-            // Le contenu du fichier view sera récupéré dans le paramètre viewContent de la fonction
-            $.get(this.view, function (viewContent) {
-                app.empty(); //Vide le contenu le cas échéant
+            $.get(this.view,
+            // Callback appelée après que le fichier ait été chargé
+            function (viewContent) {
+                app.empty(); // Vide le contenu le cas échéant
                 app.html(viewContent);
-
-                //console.log(viewContent);
             });
         }
     }]);
 
     return LoginController;
 }();
+
+/*
+export class LoginController {
+   constructor() {
+       //Définition de la vue (ce qui est affiché) pour ce contrôleur
+       this.view = './src/user/login/views/loginform.view.html';
+       //console.log('Vue' + this.view);
+       this.login = new Login ();
+   }
+
+   /**
+    * Méthode pour récupérer la vue à afficher
+    
+   getView() {
+       //Récupère le placeholder de mon application
+       const app = $('[app]');
+
+       //console.log('Tente de charger : ' + this.view);
+       //Méthode de jquery (get) qui permet d'aller cherche un fichier quelque part et de la retourner dans une fonction (on récupère avec get et si succès, on le récupère dans la fonction)
+       // Le contenu du fichier view sera récupéré dans le paramètre viewContent de la fonction
+       $.get(
+           this.view,
+           function (viewContent) {
+               app.empty(); //Vide le contenu le cas échéant
+               app.html(viewContent);
+
+               //console.log(viewContent);
+           }
+       );
+   }
+
+}
+*/
 
 /***/ }),
 
@@ -1432,7 +1434,7 @@ exports.MyStories = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _menu = __webpack_require__(/*! ../../../../menu/menu.class */ "./menu/menu.class.js");
+var _menu = __webpack_require__(/*! ../../../menu/menu.class */ "./src/menu/menu.class.js");
 
 var _userService = __webpack_require__(/*! ../../../services/user-service.class */ "./src/services/user-service.class.js");
 
@@ -1505,7 +1507,7 @@ var _loginController = __webpack_require__(/*! ./../login/views/loginController.
 
 var _userService = __webpack_require__(/*! ../../services/user-service.class */ "./src/services/user-service.class.js");
 
-var _menu = __webpack_require__(/*! ../../../menu/menu.class */ "./menu/menu.class.js");
+var _menu = __webpack_require__(/*! ../../menu/menu.class */ "./src/menu/menu.class.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
