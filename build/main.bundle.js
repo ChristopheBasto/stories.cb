@@ -1110,6 +1110,11 @@ var Login = exports.Login = function () {
     _createClass(Login, [{
         key: 'formListener',
         value: function formListener() {
+
+            //Nouveau *********************************************************************************
+            var login = this.login;
+            var password = this.password;
+
             var app = $('[app]');
 
             app.on('keyup', '#loginForm', // Délégation d'événement...
@@ -1172,7 +1177,7 @@ var Login = exports.Login = function () {
                         var toast = new _toaster.Toast({
                             message: 'Ce login ou ce mot de passe ne correspond à aucun utilisateur',
                             duration: 4,
-                            background: 'warning',
+                            background: 'danger',
                             width: 200,
                             height: 100
                         });

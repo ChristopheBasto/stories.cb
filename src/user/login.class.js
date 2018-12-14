@@ -23,6 +23,11 @@ export class Login {
      * @return void
      */
     formListener() {
+
+        //Nouveau *********************************************************************************
+        let login = this.login;
+        let password = this.password;
+
         const app = $('[app]');
 
         app.on(
@@ -93,7 +98,7 @@ export class Login {
                             {
                                 message: 'Ce login ou ce mot de passe ne correspond à aucun utilisateur',
                                 duration: 4,
-                                background: 'warning',
+                                background: 'danger',
                                 width: 200,
                                 height: 100
                             }
