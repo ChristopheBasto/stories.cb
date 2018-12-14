@@ -24,9 +24,7 @@ export class Login {
      */
     formListener() {
 
-        //Nouveau *********************************************************************************
-        let login = this.login;
-        let password = this.password;
+        
 
         const app = $('[app]');
 

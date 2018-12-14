@@ -1111,10 +1111,6 @@ var Login = exports.Login = function () {
         key: 'formListener',
         value: function formListener() {
 
-            //Nouveau *********************************************************************************
-            var login = this.login;
-            var password = this.password;
-
             var app = $('[app]');
 
             app.on('keyup', '#loginForm', // Délégation d'événement...
