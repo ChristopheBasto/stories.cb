@@ -8,6 +8,7 @@
 
 import { User } from "../user/user.class";
 
+
 export class UserService {
     constructor() {
         this.user = {};
@@ -40,6 +41,7 @@ export class UserService {
     getUser() {
         const localUser = JSON.parse(localStorage.getItem('storiesUser'));
         const user = new User();
+        user.id = localUser.id;
         user.setUserName(localUser.userName);
         user.group = localUser.group;
         console.log('UserService::getUser');
@@ -51,7 +53,6 @@ export class UserService {
         return this.user;
     }
 }
-
 
 
 /*

@@ -989,6 +989,7 @@ var UserService = exports.UserService = function () {
         value: function getUser() {
             var localUser = JSON.parse(localStorage.getItem('storiesUser'));
             var user = new _user.User();
+            user.id = localUser.id;
             user.setUserName(localUser.userName);
             user.group = localUser.group;
             console.log('UserService::getUser');
@@ -1441,16 +1442,97 @@ var _userService = __webpack_require__(/*! ../../../services/user-service.class 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/*
+export class MyStories {
+constructor() {
+    //Définition de la vue (ce qui est affiché) pour ce contrôleur
+    this.view = './src/user/login/views/stories.view.html';
+    
+    const userService = new UserService();
+    const menu = new Menu ();
+    menu.setUser(userService.getUser());
+ 
+}
+
+/**
+ * Méthode pour récupérer la vue à afficher
+ 
+getView() {
+    //Récupère le placeholder de mon application
+    const app = $('[app]');
+
+    //console.log('Tente de charger : ' + this.view);
+    //Méthode de jquery (get) qui permet d'aller cherche un fichier quelque part et de la retourner dans une fonction (on récupère avec get et si succès, on le récupère dans la fonction)
+    // Le contenu du fichier view sera récupéré dans le paramètre viewContent de la fonction
+    $.get(
+        this.view,
+        function (viewContent) {
+            app.empty(); //Vide le contenu le cas échéant
+            app.html(viewContent);
+
+            //console.log(viewContent);
+        }
+    );
+}
+
+}
+*/
+
 var MyStories = exports.MyStories = function () {
     function MyStories() {
+        var _this = this;
+
         _classCallCheck(this, MyStories);
 
-        //Définition de la vue (ce qui est affiché) pour ce contrôleur
-        this.view = './src/user/login/views/stories.view.html';
+        // Définit la vue pour ce contrôleur
+        this.view = './src/stories/views/stories.view.html';
 
         var userService = new _userService.UserService();
         var menu = new _menu.Menu();
         menu.setUser(userService.getUser());
+
+        this.stories = [];
+
+        // Affichage du loader
+        var loader = $('[app]').children('#loader').eq(0);
+        loader.removeClass('hidden');
+
+        var service = new StoriesService();
+
+        service.getMyStories().then(function (stories) {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = stories[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var story = _step.value;
+
+                    var aStory = new Story();
+                    aStory.deserialize(story);
+                    _this.stories.push(aStory);
+                }
+                // En fin de parcours, on crée les lignes du tableau
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            _this._createTable();
+
+            // Efface le loader
+            loader.addClass('hidden');
+        });
     }
 
     /**
@@ -1461,18 +1543,84 @@ var MyStories = exports.MyStories = function () {
     _createClass(MyStories, [{
         key: 'getView',
         value: function getView() {
-            //Récupère le placeholder de mon application
+            // Récupère le placeholder de mon application
             var app = $('[app]');
 
-            //console.log('Tente de charger : ' + this.view);
-            //Méthode de jquery (get) qui permet d'aller cherche un fichier quelque part et de la retourner dans une fonction (on récupère avec get et si succès, on le récupère dans la fonction)
-            // Le contenu du fichier view sera récupéré dans le paramètre viewContent de la fonction
-            $.get(this.view, function (viewContent) {
-                app.empty(); //Vide le contenu le cas échéant
+            $.get(this.view,
+            // Callback appelée après que le fichier ait été chargé
+            function (viewContent) {
+                app.empty(); // Vide le contenu le cas échéant
                 app.html(viewContent);
-
-                //console.log(viewContent);
             });
+        }
+    }, {
+        key: '_createTable',
+        value: function _createTable() {
+            var tbody = $('[app]').children('#stories-table').eq(0).children('tbody').eq(0);
+
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+                for (var _iterator2 = this.stories[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var story = _step2.value;
+
+                    // Créer une ligne
+                    var _row = $('<tr>');
+                    _row.attr('data-id', story.id);
+
+                    // Colonne 1 : id
+                    var _td = $('<td>');
+                    _td.html(story.id);
+                    _td.appendTo(_row);
+
+                    // Colonne 2 : Titre
+                    _td = $('<td>');
+                    _td.html(story.title);
+                    _td.appendTo(_row);
+
+                    // Colonne 3 : Date de début
+                    _td = $('<td>');
+                    _td.html(story.getBeginDate());
+                    _td.appendTo(_row);
+
+                    // Colonne 4 : Date de fin estimée
+                    _td = $('<td>');
+                    _td.html(story.getEstimatedEndDate());
+                    _td.appendTo(_row);
+
+                    _td = $('<td>');
+                    _td.html(story.libelle);
+                    _td.appendTo(_row);
+
+                    // Dernière colonne à traiter
+                    _td = $('<td>');
+                    var _btn = $('<i>');
+                    _btn.addClass('icon-switch').addClass('done');
+                    _btn.appendTo(_td);
+                    _btn = $('<i>');
+                    _btn.addClass('icon-bin2').addClass('delete');
+                    _btn.appendTo(_td);
+                    _td.appendTo(_row);
+
+                    // Ajoute le tout au tbody
+                    _row.appendTo(tbody);
+                }
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
+                }
+            }
         }
     }]);
 
